@@ -10,6 +10,13 @@ class usersControllers {
 
         response.status(201).json({name, email, password})
     }
+    show(request, response) {
+
+    }
+
+    delete(request, response) {
+        
+    }
 }
 
 module.exports = usersControllers;
