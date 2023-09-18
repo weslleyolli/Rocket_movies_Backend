@@ -1,9 +1,13 @@
 const { Router } = require("express")
 
 const usersRouter = require("./users.routes")
+const movieTagsRoutes = require("./movieTags.routes")
+const movieNotesRoutes = require("./movieNotes.routes")
 
 const routes = Router()
 
 routes.use("/users", usersRouter)
+//routes.use("/notes/:id", movieTagsRoutes)
+routes.use("/notes", movieNotesRoutes)
 
 module.exports = routes
