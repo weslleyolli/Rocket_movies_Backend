@@ -1,22 +1,12 @@
-const AppError = require("../utils/AppError")
+const knex = require('../database/knex')
+class moviesTagsController {
+    async index(request, response){
+        const { user_id } = request.params
 
-class moviesTagsControllers {
-    create(request, response) {
-        const { name, email, password } = request.body
+        const tags = await knex('tags')
+            .where({ user_id })
 
-        if(!name || !email || !password){
-            throw new AppError("Please enter a name, a email and password")
-        }
-
-        response.status(201).json({name, email, password})
-    }
-    show(request, response) {
-
-    }
-
-    delete(request, response) {
-        
+        return response.json(tags)
     }
 }
-
-module.exports = moviesTagsControllers;
+module.exports = moviesTagsController

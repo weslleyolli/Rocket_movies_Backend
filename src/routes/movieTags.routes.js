@@ -6,6 +6,6 @@ const movieTagsRoutes = Router()
 
 const moviesTagsControllers = new MoviesTagsControllers()
 
-movieTagsRoutes.post("/", moviesTagsControllers.create)
+movieTagsRoutes.get("/", moviesTagsControllers.index)
 
 module.exports = movieTagsRoutes
