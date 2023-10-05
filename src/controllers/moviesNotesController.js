@@ -26,7 +26,7 @@ class moviesNotesControllers {
             throw new AppError("Please enter a title,  a description")
         }
 
-        response.status(201).json({title, description, tags, rating})
+        return response.status(201).json({title, description, tags, rating})
     }
     async show(request, response) {
         const { id } = request.params
