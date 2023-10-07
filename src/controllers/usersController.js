@@ -22,20 +22,17 @@ class usersControllers {
     }
     async update(request, response) {
         const { name, email, password, old_password } = request.body
-        const { id } = request.params
+        const user_id = request.user.id
 
-        const user = await knex('users').where("id", id).first()
+        const user = await knex('users').where("id", user_id).first()
 
         if (!user) {
             throw new AppError("User does not exist")
         }
+        const userWithUpdateEmail = await knex('users').where('email', email).first()
 
-        if (email !== user.email) {
-            const userWithUpdateEmail = await knex('users').where('email', email).first()
-
-            if (userWithUpdateEmail) {
-                throw new AppError("this email already exists")
-            }
+        if (userWithUpdateEmail && userWithUpdateEmail.id !== user.id) {
+            throw new AppError("This email already exists")
         }
 
         user.name = name ?? user.name;
@@ -57,7 +54,7 @@ class usersControllers {
             user.password = await hash(password, 8);
         }
         await knex('users')
-            .where('id', id)
+            .where('id', user_id)
             .update({
                 name: user.name,
                 email: user.email,
@@ -65,7 +62,7 @@ class usersControllers {
                 updated_at: knex.raw('DATETIME("now")')
             });
 
-            response.status(201).json({ name, email, password, old_password })
+        response.status(201).json({ name, email, password, old_password })
 
     }
 }
