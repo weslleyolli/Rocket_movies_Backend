@@ -10,6 +10,14 @@ class usersControllers {
             throw new AppError("Please enter a name, a email and password")
         }
 
+        const checkUserExist = await knex('users')
+            .where('email', email)
+            .first();
+
+        if (checkUserExist) {
+            throw new AppError("This email already exists")
+        }
+
         const hashed = await hash(password, 8)
 
         await knex('users').insert({
